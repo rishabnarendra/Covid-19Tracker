@@ -1,26 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {fetchData} from './api';
+import { Cards, Country, PieChart } from './components';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  
+  state = {
+    data: {},
+    country: '',
+  }
+
+  async componentDidMount() {
+    const data = await fetchData();
+    this.setState({ data });
+  }
+
+  updateCountry = async (country) => {
+    const data = await fetchData(country);
+    this.setState({ data, country: country });
+  }
+
+  render() {
+    const { data } = this.state;
+
+    return (
+      <div>
+        <Cards data = { data } />
+        <div className="date">Data Last Updated: {new Date(data.lastUpdate).toDateString()}</div>
+        <Country updateCountry = { this.updateCountry } />
+        <div class="foo">
+          <span class="letter">Covid-19</span>
+        </div>
+        <PieChart data = { data } />
+      </div>
+    );
+  }
 }
 
 export default App;
