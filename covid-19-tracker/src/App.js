@@ -16,8 +16,14 @@ class App extends React.Component {
   }
 
   updateCountry = async (country) => {
-    const data = await fetchData(country);
-    this.setState({ data, country: country });
+    if(country !== "Global") {
+      const data = await fetchData(country);
+      this.setState({ data, country: country });
+    }
+    else {
+      const data = await fetchData(); 
+      this.setState({ data, country: country });
+    }
   }
 
   render() {
@@ -28,9 +34,7 @@ class App extends React.Component {
         <Cards data = { data } />
         <div className="date">Data Last Updated: {new Date(data.lastUpdate).toDateString()}</div>
         <Country updateCountry = { this.updateCountry } />
-        <div class="foo">
-          <span class="letter">Covid-19</span>
-        </div>
+        <br /><br /><br /><br />
         <PieChart data = { data } />
       </div>
     );

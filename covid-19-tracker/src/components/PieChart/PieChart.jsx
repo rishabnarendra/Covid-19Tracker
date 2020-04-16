@@ -1,7 +1,8 @@
 import React from 'react';
 import Pie from 'react-chartjs-2';
+import { fetchData } from '../../api';
 
-const PieChart = ( { data: {confirmed, recovered, deaths } } ) => {
+const PieChart = ( { data: {confirmed, recovered, deaths }, country } ) => {
 
     // We can just check for confirmed. If this value isn't loaded then nothing else is
     if (!confirmed) {
@@ -15,7 +16,11 @@ const PieChart = ( { data: {confirmed, recovered, deaths } } ) => {
             'Deaths'
         ],
         datasets: [{
-            data: [confirmed.value - recovered.value - deaths.value, recovered.value, deaths.value],
+            data: [
+                confirmed.value - recovered.value - deaths.value, 
+                recovered.value, 
+                deaths.value
+            ],
             backgroundColor: [
             'rgba(0, 0, 255, 0.5)',
             'rgba(0, 255, 0, 0.5)',
